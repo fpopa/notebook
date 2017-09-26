@@ -1,10 +1,12 @@
 require('dotenv').config()
 const Agenda = require('agenda');
-const app = express();
 const bodyParser = require('body-parser');
 const express = require('express');
 const moment = require('moment');
 const request = require('request');
+
+const app = express();
+const agenda = new Agenda({db: {address: 'mongodb://127.0.0.1/agenda'}});
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
@@ -130,8 +132,6 @@ const callSendAPI = (messageData) => {
 }
 
 app.listen(3005)
-
-const agenda = new Agenda({db: {address: 'mongodb://127.0.0.1/agenda'}});
 
 agenda.define('sendReminder', function(job, done, data) {
   sendTextMessage(job.attrs.senderID, `Hello :), reminding you about \n\n ${job.attrs.text}`)
