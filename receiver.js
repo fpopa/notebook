@@ -1,10 +1,10 @@
 require('dotenv').config()
-
-const express = require('express');
+const Agenda = require('agenda');
+const app = express();
 const bodyParser = require('body-parser');
+const express = require('express');
 const moment = require('moment');
 const request = require('request');
-const app = express();
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
@@ -58,6 +58,8 @@ const receivedMessage = (event) => {
     case 'mmr' === messageText:
         mmr(senderID);
       break;
+    case messageText.startsWith('remind me about'):
+        setUpReminder(senderID, messageText);
     case messageText.startsWith('weather'):
         weather(senderID, messageText.split(' ')[1]);
       break;
@@ -122,9 +124,24 @@ const callSendAPI = (messageData) => {
     } else {
       console.error("Unable to send message.");
       console.error(res);
-      console.error(error);
+      console.error(err);
     }
   });
 }
 
 app.listen(3005)
+
+const agenda = new Agenda({db: {address: 'mongodb://127.0.0.1/agenda'}});
+
+agenda.define('sendReminder', function(job, done, data) {
+  sendTextMessage(job.attrs.senderID, `Hello :), reminding you about \n\n ${job.attrs.text}`)
+});
+
+const setUpReminder = (senderID, messageText) => {
+  const [text, time] = messageText.split('about')[1].split(' in ');
+
+  agenda.on('ready', function() {
+    agenda.schedule(`in ${time}`, 'sendReminder', {senderID, text});
+    agenda.start();
+  });
+}
