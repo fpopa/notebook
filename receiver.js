@@ -134,14 +134,19 @@ const callSendAPI = (messageData) => {
 app.listen(3005)
 
 agenda.define('sendReminder', function(job, done, data) {
+  console.log(`sending scheduled message to ${job.attrs.data.senderID}`)
+
   sendTextMessage(job.attrs.data.senderID, `Hello :), reminding you about \n\n ${job.attrs.data.text}`)
 });
 
 const setUpReminder = (senderID, messageText) => {
   const [text, time] = messageText.split('about')[1].split(' in ');
 
-  agenda.on('ready', function() {
-    agenda.schedule(`in ${time}`, 'sendReminder', {senderID, text});
-    agenda.start();
-  });
+  console.log(`scheduling message for ${senderID}`)
+  agenda.schedule(`in ${time}`, 'sendReminder', {senderID, text});
 }
+
+agenda.on('ready', function() {
+  console.log('ready for scheduling messages');
+  agenda.start();
+})
