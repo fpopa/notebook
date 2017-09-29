@@ -43,7 +43,6 @@ app.post('/webhook', function (req, res) {
   res.sendStatus(200);
 });
 
-
 const receivedMessage = (event) => {
   const senderID = event.sender.id;
   let messageText = event.message.text;
@@ -58,12 +57,13 @@ const receivedMessage = (event) => {
 
   switch (true) {
     case 'mmr' === messageText:
-        mmr(senderID);
+      mmr(senderID);
       break;
     case messageText.startsWith('remind me about'):
-        setUpReminder(senderID, messageText);
+      setUpReminder(senderID, messageText);
+      break;
     case messageText.startsWith('weather'):
-        weather(senderID, messageText.split(' ')[1]);
+      weather(senderID, messageText.split(' ')[1]);
       break;
     default:
       // sendTextMessage(senderID, messageText);
@@ -134,7 +134,7 @@ const callSendAPI = (messageData) => {
 app.listen(3005)
 
 agenda.define('sendReminder', function(job, done, data) {
-  sendTextMessage(job.attrs.senderID, `Hello :), reminding you about \n\n ${job.attrs.text}`)
+  sendTextMessage(job.attrs.data.senderID, `Hello :), reminding you about \n\n ${job.attrs.data.text}`)
 });
 
 const setUpReminder = (senderID, messageText) => {
