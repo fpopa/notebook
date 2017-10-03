@@ -20,42 +20,43 @@ const callSendAPI = (messageData) => {
   });
 };
 
-module.exports = {
-  sendTextMessage: (id, text) => {
-    callSendAPI({
-      recipient: {
-        id,
-      },
-      message: {
-        text,
-      },
-    });
-  },
-
-  receivedMessage: (event) => {
-    const senderID = event.sender.id;
-    let messageText = event.message.text;
-
-    // console.log("Received message for user %d and page %d at %d with message:", senderID, event.recipient.id, event.timestamp);
-    // console.log(JSON.stringify(message));
-
-    if (!messageText) {
-      return;
-    }
-    messageText = messageText.toLowerCase();
-
-    switch (true) {
-      case messageText === 'mmr':
-        nbApis.mmr(senderID);
-        break;
-      case messageText.startsWith('remind me about'):
-        nbAgenda.setUpReminder(senderID, messageText);
-        break;
-      case messageText.startsWith('weather'):
-        nbApis.weather(senderID, messageText.split(' ')[1]);
-        break;
-      default:
-        // sendTextMessage(senderID, messageText);
-    }
-  },
+const sendTextMessage = (id, text) => {
+  callSendAPI({
+    recipient: {
+      id,
+    },
+    message: {
+      text,
+    },
+  });
 };
+
+const receivedMessage = (event) => {
+  const senderID = event.sender.id;
+  let messageText = event.message.text;
+
+  // console.log("Received message for user %d and page %d at %d with message:", senderID, event.recipient.id, event.timestamp);
+  // console.log(JSON.stringify(message));
+
+  if (!messageText) {
+    return;
+  }
+  messageText = messageText.toLowerCase();
+
+  switch (true) {
+    case messageText === 'mmr':
+      nbApis.mmr(senderID);
+      break;
+    case messageText.startsWith('remind me about'):
+      nbAgenda.setUpReminder(senderID, messageText);
+      break;
+    case messageText.startsWith('weather'):
+      nbApis.weather(senderID, messageText.split(' ')[1]);
+      break;
+    default:
+      // sendTextMessage(senderID, messageText);
+  }
+};
+
+module.exports.sendTextMessage = sendTextMessage;
+module.exports.receivedMessage = receivedMessage;

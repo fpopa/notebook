@@ -12,21 +12,22 @@ const defineCommands = () => {
   });
 };
 
-module.exports = {
-  init: (address = 'mongodb://127.0.0.1/agenda') => {
-    agenda = new Agenda({ db: { address } });
+const init = (address = 'mongodb://127.0.0.1/agenda') => {
+  agenda = new Agenda({ db: { address } });
 
-    agenda.on('ready', () => {
-      console.log('ready for scheduling messages');
-      agenda.start();
-      defineCommands(agenda);
-    });
-  },
-
-  setUpReminder: (senderID, messageText) => {
-    const [text, time] = messageText.split('about')[1].split(' in ');
-
-    console.log(`scheduling message for ${senderID}`);
-    agenda.schedule(`in ${time}`, 'sendReminder', { senderID, text });
-  },
+  agenda.on('ready', () => {
+    console.log('ready for scheduling messages');
+    agenda.start();
+    defineCommands(agenda);
+  });
 };
+
+const setUpReminder = (senderID, messageText) => {
+  const [text, time] = messageText.split('about')[1].split(' in ');
+
+  console.log(`scheduling message for ${senderID}`);
+  agenda.schedule(`in ${time}`, 'sendReminder', { senderID, text });
+};
+
+module.exports.init = init;
+module.exports.setUpReminder = setUpReminder;

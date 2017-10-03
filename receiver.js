@@ -8,7 +8,6 @@ const nbAgenda = require('./agenda.js');
 
 const app = express();
 
-
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
