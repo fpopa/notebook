@@ -5,6 +5,7 @@ const express = require('express');
 
 const nbMessage = require('./message.js');
 const nbAgenda = require('./agenda.js');
+const nbDatabase = require('./database.js');
 
 const app = express();
 
@@ -45,4 +46,12 @@ app.post('/webhook', (req, res) => {
 
 nbAgenda.init();
 
-app.listen(3005);
+
+nbDatabase.connect('mongodb://localhost:27017/notebook', (err) => {
+  if (err) {
+    console.log('Unable to connect to mognodb.');
+    process.exit(1);
+  }
+
+  app.listen(3005);
+});

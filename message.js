@@ -2,6 +2,7 @@ const request = require('request');
 
 const nbApis = require('./apis.js');
 const nbAgenda = require('./agenda.js');
+const nbUser = require('./user.js');
 
 const callSendAPI = (messageData) => {
   request({
@@ -35,7 +36,10 @@ const receivedMessage = (event) => {
   const senderID = event.sender.id;
   let messageText = event.message.text;
 
-  // console.log("Received message for user %d and page %d at %d with message:", senderID, event.recipient.id, event.timestamp);
+  nbUser.ensureUserExists(senderID);
+
+  // console.log("Received message for user %d and page %d at %d with message:",
+  // senderID, event.recipient.id, event.timestamp);
   // console.log(JSON.stringify(message));
 
   if (!messageText) {
@@ -52,6 +56,9 @@ const receivedMessage = (event) => {
       break;
     case messageText.startsWith('weather'):
       nbApis.weather(senderID, messageText.split(' ')[1]);
+      break;
+    case messageText.startsWith('toggle ubb updates'):
+      nbUser.toggleUbbUpdates(senderID);
       break;
     default:
       // sendTextMessage(senderID, messageText);
