@@ -21,14 +21,16 @@ const callSendAPI = (messageData) => {
   });
 };
 
-const sendTextMessage = (id, text) => {
-  callSendAPI({
-    recipient: {
-      id,
-    },
-    message: {
-      text,
-    },
+const sendTextMessage = (ids, text) => {
+  ids.forEach((id) => {
+    callSendAPI({
+      recipient: {
+        id,
+      },
+      message: {
+        text,
+      },
+    });
   });
 };
 

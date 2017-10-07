@@ -8,7 +8,7 @@ const defineCommands = () => {
   agenda.define('sendReminder', (job) => {
     console.log(`sending scheduled message to ${job.attrs.data.senderID}`);
 
-    nbMessage.sendTextMessage(job.attrs.data.senderID, `Hello :), reminding you about \n\n ${job.attrs.data.text}`);
+    nbMessage.sendTextMessage([job.attrs.data.senderID], `Hello :), reminding you about \n\n ${job.attrs.data.text}`);
   });
 };
 

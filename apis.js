@@ -9,7 +9,7 @@ const mmr = (senderID) => {
   request.get(url, (err, res, body) => {
     const response = JSON.parse(body);
 
-    nbMessage.sendTextMessage(senderID, response.mmr_estimate.estimate);
+    nbMessage.sendTextMessage([senderID], response.mmr_estimate.estimate);
   });
 };
 
@@ -32,7 +32,7 @@ const weather = (senderID, city = 'Cluj-Napoca') => {
     responseMessage += `${response.main.humidity}% humidity.\n`;
     responseMessage += `${response.clouds.all}% clouds.\n`;
 
-    nbMessage.sendTextMessage(senderID, responseMessage);
+    nbMessage.sendTextMessage([senderID], responseMessage);
   });
 };
 

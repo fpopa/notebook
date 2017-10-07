@@ -6,6 +6,7 @@ const express = require('express');
 const nbMessage = require('./message.js');
 const nbAgenda = require('./agenda.js');
 const nbDatabase = require('./database.js');
+const nbCrawler = require('./crawler.js');
 
 const app = express();
 
@@ -55,3 +56,5 @@ nbDatabase.connect('mongodb://localhost:27017/notebook', (err) => {
 
   app.listen(3005);
 });
+
+nbCrawler.fetch(true);
