@@ -11,7 +11,8 @@ const notify = (message) => {
     ubb_updates: true,
   }).toArray((err, users) => {
     const ids = users.map(user => user.senderID);
-    nbMessage.sendTextMessage([ids], message);
+
+    nbMessage.sendTextMessage(ids, message);
   });
 };
 
