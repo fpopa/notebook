@@ -61,7 +61,7 @@ const receivedMessage = (event) => {
       nbAgenda.setUpReminder(senderID, messageText);
       break;
     case messageText.startsWith('!weather'):
-      nbApis.weather(senderID, messageText.split('!weather')[1]);
+      nbApis.weather(senderID, messageText.split(' ')[1]);
       break;
     case messageText.startsWith('!toggleubbupdates'):
       nbUser.toggleUbbUpdates(senderID);
