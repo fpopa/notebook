@@ -3,6 +3,7 @@ const request = require('request');
 const nbApis = require('./apis.js');
 const nbAgenda = require('./agenda.js');
 const nbUser = require('./user.js');
+const nbHelp = require('./help.js');
 
 const callSendAPI = (messageData) => {
   request({
@@ -50,16 +51,19 @@ const receivedMessage = (event) => {
   messageText = messageText.toLowerCase();
 
   switch (true) {
-    case messageText === 'mmr':
+    case messageText.startsWith('!help'):
+      sendTextMessage([senderID], nbHelp.commands());
+      break;
+    case messageText === '!mmr':
       nbApis.mmr(senderID);
       break;
-    case messageText.startsWith('remind me about'):
+    case messageText.startsWith('!reminder'):
       nbAgenda.setUpReminder(senderID, messageText);
       break;
-    case messageText.startsWith('weather'):
-      nbApis.weather(senderID, messageText.split(' ')[1]);
+    case messageText.startsWith('!weather'):
+      nbApis.weather(senderID, messageText.split('!weather')[1]);
       break;
-    case messageText.startsWith('toggle ubb updates'):
+    case messageText.startsWith('!toggleubbupdates'):
       nbUser.toggleUbbUpdates(senderID);
       break;
     default:

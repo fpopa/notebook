@@ -20,6 +20,13 @@ const fetch = (init = false) => {
   // const url = `http://www.cs.ubbcluj.ro/anunturi/anunturi-studenti/anunturi-cazare/`;
 
   request.get(url, (error, response, body) => {
+    if (error) {
+      console.log('CRAWLER ERROR :', error);
+
+      setTimeout(() => { fetch(); }, 3 * 1000);
+      return;
+    }
+
     const $ = cheerio.load(body);
 
     const lastAnnouncements = [];

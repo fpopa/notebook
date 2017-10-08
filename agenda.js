@@ -23,7 +23,7 @@ const init = (address = 'mongodb://127.0.0.1/agenda') => {
 };
 
 const setUpReminder = (senderID, messageText) => {
-  const [text, time] = messageText.split('about')[1].split(' in ');
+  const [text, time] = messageText.split('!reminder ')[1].split(' in ');
 
   console.log(`scheduling message for ${senderID}`);
   agenda.schedule(`in ${time}`, 'sendReminder', { senderID, text });
