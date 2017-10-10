@@ -4,11 +4,11 @@ const request = require('request');
 const nbDatabase = require('./database.js');
 const nbMessage = require('./message.js');
 
-const announcements = [];
+const findings = [];
 
 const notify = (message) => {
   nbDatabase.getCollection('users').find({
-    ubb_updates: true,
+    notifications: true,
   }).toArray((err, users) => {
     const ids = users.map(user => user.senderID);
 
@@ -16,47 +16,106 @@ const notify = (message) => {
   });
 };
 
-const fetch = (init = false) => {
-  const url = 'http://www.cs.ubbcluj.ro/';
-  // const url = `http://www.cs.ubbcluj.ro/anunturi/anunturi-studenti/anunturi-cazare/`;
-
+const crawl = ({ url, selector, init = false }) => {
   request.get(url, (error, response, body) => {
     if (error) {
       console.log('CRAWLER ERROR :', error);
 
-      setTimeout(() => { fetch(); }, 3 * 1000);
+      setTimeout(() => { crawl(); }, 60 * 1000);
       return;
     }
 
     const $ = cheerio.load(body);
+    const lastFindings = [];
 
-    const lastAnnouncements = [];
-
-    // $('.category-anunturi-cazare h2.title a').each(function(i) {
-    $('h2.title a').each(function () {
-      lastAnnouncements.push(`${$(this).attr('href')}\n${$(this).text()}`);
+    $(selector).each(function () {
+      lastFindings.push(`${$(this).attr('href')}\n${$(this).text()}`);
     });
 
-    lastAnnouncements.forEach((title) => {
-      if (announcements.includes(title)) {
+    lastFindings.forEach((finding) => {
+      if (findings.includes(finding)) {
         return;
       }
 
-      announcements.push(title);
+      findings.push(finding);
       if (init === true) {
         return;
       }
 
-      notify(`DBG: ${announcements.length}, anunt nou: ${title}`);
+      notify(`DBG: ${findings.length}, anunt nou: ${finding}`);
 
-      if (announcements.length > 20) {
-        announcements.shift();
+      if (findings.length > 20) {
+        findings.shift();
       }
     });
 
-    setTimeout(() => { fetch(); }, 3 * 1000);
+    setTimeout(() => { crawl({url, selector}); }, 3 * 1000);
   });
 };
 
+const saveSelector = ({ _id, selector }) => {
+  nbDatabase.getCollection('crawlers').update({
+    _id,
+  }, {
+    $set: {
+      selector,
+    },
+  });
+};
 
-module.exports.fetch = fetch;
+const createSelectorAndCrawl = ({ url, example, _id }) => {
+  request.get(url, (error, response, body) => {
+    if (error) {
+      console.log('CRAWLER ERROR :', error);
+
+      setTimeout(() => { crawl(); }, 60 * 1000);
+      return;
+    }
+
+    const $ = cheerio.load(body);
+    const content = $.html();
+    const index = content.indexOf(example);
+    const zone = content.substring(index - 200, index);
+    const element = zone.split('<').pop().split(' ')[0];
+    const exampleSelector = `${element}:contains('${example}')`;
+
+    let node = $(exampleSelector).get(0);
+    const parentElements = [];
+
+    while (node.parent) {
+      parentElements.push(node.name);
+
+      node = node.parent;
+    }
+    parentElements.push(node.name);
+
+    const selector = parentElements.reverse().join(' ');
+    saveSelector({ _id, selector });
+
+    crawl({
+      url,
+      selector,
+      init: true,
+    });
+  });
+};
+
+const startCrawlers = () => {
+  nbDatabase.getCollection('crawlers').find({
+  }).toArray((err, crawlers) => {
+    crawlers.forEach((crawler) => {
+      if (!crawler.selector) {
+        createSelectorAndCrawl(crawler);
+        return;
+      }
+
+      crawl({
+        url: crawler.url,
+        selector: crawler.selector,
+        init: true,
+      });
+    });
+  });
+};
+
+module.exports.startCrawlers = startCrawlers;

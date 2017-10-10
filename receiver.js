@@ -55,6 +55,5 @@ nbDatabase.connect('mongodb://localhost:27017/notebook', (err) => {
   }
 
   app.listen(3005);
+  nbCrawler.startCrawlers();
 });
-
-nbCrawler.fetch(true);

@@ -17,14 +17,14 @@ const ensureUserExists = (senderID) => {
   }, {
     $setOnInsert: {
       senderID,
-      ubb_updates: false,
+      notifications: false,
     },
   }, {
     upsert: true,
   });
 };
 
-const toggleUbbUpdates = (senderID) => {
+const toggleNofitications = (senderID) => {
   ensureCollectionExists('users');
 
   Users.findOne({
@@ -39,7 +39,7 @@ const toggleUbbUpdates = (senderID) => {
       senderID,
     }, {
       $set: {
-        ubb_updates: !user.ubb_updates,
+        notifications: !user.notifications,
       },
     }, (updateErr) => {
       // todo make a function that hanles all these stupid errors.
@@ -49,7 +49,7 @@ const toggleUbbUpdates = (senderID) => {
 
       let updatesStatus = 'enabled';
       // we do it like so because we check the value before update.
-      if (user.ubb_updates === true) {
+      if (user.notifications === true) {
         updatesStatus = 'disabled';
       }
 
@@ -58,5 +58,5 @@ const toggleUbbUpdates = (senderID) => {
   });
 };
 
-module.exports.toggleUbbUpdates = toggleUbbUpdates;
+module.exports.toggleNofitications = toggleNofitications;
 module.exports.ensureUserExists = ensureUserExists;
