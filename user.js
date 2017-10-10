@@ -53,7 +53,7 @@ const toggleNofitications = (senderID) => {
         updatesStatus = 'disabled';
       }
 
-      nbMessage.sendTextMessage([senderID], `Ubb updates are now ${updatesStatus}`);
+      nbMessage.sendTextMessage([senderID], `Notifications are now ${updatesStatus}`);
     });
   });
 };
