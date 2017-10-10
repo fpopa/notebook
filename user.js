@@ -9,6 +9,11 @@ const ensureCollectionExists = (collection) => {
   }
 };
 
+const welcomeNewUser = (senderID) => {
+  nbMessage.sendTextMessage([senderID], 'Hello :)');
+  nbMessage.sendTextMessage([senderID], 'I am here to help you, see how by writting \'!help\'');
+};
+
 const ensureUserExists = (senderID) => {
   ensureCollectionExists('users');
 
@@ -21,6 +26,14 @@ const ensureUserExists = (senderID) => {
     },
   }, {
     upsert: true,
+  }, (err, command) => {
+    if (err) {
+      console.log('something went wrong with the database ', err);
+    }
+
+    if (command.result.upserted) {
+      welcomeNewUser(senderID);
+    }
   });
 };
 

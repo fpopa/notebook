@@ -39,8 +39,6 @@ const receivedMessage = (event) => {
   const senderID = event.sender.id;
   let messageText = event.message.text;
 
-  nbUser.ensureUserExists(senderID);
-
   // console.log("Received message for user %d and page %d at %d with message:",
   // senderID, event.recipient.id, event.timestamp);
   // console.log(JSON.stringify(message));
@@ -48,6 +46,8 @@ const receivedMessage = (event) => {
   if (!messageText) {
     return;
   }
+
+  nbUser.ensureUserExists(senderID);
   messageText = messageText.toLowerCase();
 
   switch (true) {
