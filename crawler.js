@@ -49,7 +49,7 @@ const crawl = ({ url, selector, init = false }) => {
       }
     });
 
-    setTimeout(() => { crawl({ url, selector }); }, 3 * 1000);
+    setTimeout(() => { crawl({ url, selector }); }, 60 * 1000);
   });
 };
 

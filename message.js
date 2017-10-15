@@ -16,8 +16,7 @@ const callSendAPI = (messageData) => {
       console.log('Successfully sent generic message with id %s to recipient %s', body.message_id, body.recipient_id);
     } else {
       console.error('Unable to send message.');
-      console.error(res);
-      console.error(err);
+      console.error(res.body);
     }
   });
 };
