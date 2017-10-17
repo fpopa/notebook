@@ -7,6 +7,7 @@ const nbMessage = require('./message.js');
 const nbAgenda = require('./agenda.js');
 const nbDatabase = require('./database.js');
 const nbCrawler = require('./crawler.js');
+const nbTexts = require('./texts.js');
 
 const app = express();
 
@@ -21,8 +22,8 @@ app.get('/webhook', (req, res) => {
   }
 });
 
-app.get('/test', (req, res) => {
-  res.send('well done');
+app.get('/privacy', (req, res) => {
+  res.send(nbTexts.privacy());
 });
 
 app.post('/webhook', (req, res) => {
