@@ -21,7 +21,7 @@ const crawl = ({ url, selector, init = false }) => {
     if (error) {
       console.log('CRAWLER ERROR :', error);
 
-      setTimeout(() => { crawl(); }, 60 * 1000);
+      setTimeout(() => { crawl(); }, 10 * 60 * 1000);
       return;
     }
 
@@ -49,7 +49,7 @@ const crawl = ({ url, selector, init = false }) => {
       }
     });
 
-    setTimeout(() => { crawl({ url, selector }); }, 60 * 1000);
+    setTimeout(() => { crawl({ url, selector }); }, 10 * 60 * 1000);
   });
 };
 

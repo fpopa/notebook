@@ -58,3 +58,8 @@ nbDatabase.connect('mongodb://localhost:27017/notebook', (err) => {
   app.listen(3005);
   nbCrawler.startCrawlers();
 });
+
+
+// TODO http://www.cs.ubbcluj.ro/robots.txt
+
+// when using any spiderino check for /robots.txt to see if the website is friend or foe
