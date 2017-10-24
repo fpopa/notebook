@@ -63,8 +63,8 @@ const receivedMessage = (event) => {
       nbApis.weather(senderID, messageText.split(' ')[1]);
       break;
     case messageText.startsWith('!togglenotifications'):
-      sendTextMessage([senderID], 'notifications are currently disabled');
-      // nbUser.toggleNofitications(senderID);
+      // sendTextMessage([senderID], 'notifications are currently disabled');
+      nbUser.toggleNofitications(senderID);
       break;
     default:
       // sendTextMessage(senderID, messageText);
