@@ -10,8 +10,7 @@ const ensureCollectionExists = (collection) => {
 };
 
 const welcomeNewUser = (senderID) => {
-  nbMessage.sendTextMessage([senderID], 'Hello :)');
-  nbMessage.sendTextMessage([senderID], 'I am here to help you, see how by writting \'!help\'');
+  nbMessage.sendTextMessage([senderID], 'Hello :)\n\n I am here to help you, see how by writting \'!help\'');
 };
 
 const ensureUserExists = (senderID) => {
