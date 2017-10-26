@@ -3,10 +3,10 @@ require('dotenv').config();
 const bodyParser = require('body-parser');
 const express = require('express');
 
-const nbMessage = require('./message.js');
 const nbAgenda = require('./agenda.js');
-const nbDatabase = require('./database.js');
 const nbCrawler = require('./crawler.js');
+const nbDatabase = require('./database.js');
+const nbMessage = require('./message.js');
 const nbTexts = require('./texts.js');
 
 const app = express();
@@ -46,17 +46,17 @@ app.post('/webhook', (req, res) => {
   res.sendStatus(200);
 });
 
-nbAgenda.init();
-
-
 nbDatabase.connect('mongodb://localhost:27017/notebook', (err) => {
   if (err) {
     console.log('Unable to connect to mognodb.');
     process.exit(1);
   }
 
-  app.listen(3005);
+  nbAgenda.init();
+
   nbCrawler.startCrawlers();
+
+  app.listen(3005);
 });
 
 

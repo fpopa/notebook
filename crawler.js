@@ -87,6 +87,7 @@ const createSelectorAndCrawl = ({ url, example, _id }) => {
 
       node = node.parent;
     }
+
     parentElements.push(node.name);
 
     const selector = parentElements.reverse().join(' ');

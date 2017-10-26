@@ -1,9 +1,9 @@
 const request = require('request');
 
-const nbApis = require('./apis.js');
 const nbAgenda = require('./agenda.js');
-const nbUser = require('./user.js');
+const nbApis = require('./apis.js');
 const nbHelp = require('./help.js');
+const nbUser = require('./user.js');
 
 const callSendAPI = (messageData) => {
   request({
