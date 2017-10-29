@@ -19,9 +19,9 @@ const notify = (message) => {
 const crawl = ({ url, selector, init = false }) => {
   request.get(url, (error, response, body) => {
     if (error) {
-      console.log('CRAWLER ERROR :', error);
+      console.log(`${Date()}: Crawler Error: ${error}`);
 
-      setTimeout(() => { crawl(); }, 10 * 60 * 1000);
+      setTimeout(() => { crawl({url, selector, init}); }, 5 * 60 * 1000);
       return;
     }
 
@@ -66,9 +66,7 @@ const saveSelector = ({ _id, selector }) => {
 const createSelectorAndCrawl = ({ url, example, _id }) => {
   request.get(url, (error, response, body) => {
     if (error) {
-      console.log('CRAWLER ERROR :', error);
-
-      setTimeout(() => { crawl(); }, 60 * 1000);
+      console.log(`${Date()}: Fetching page failed.`);
       return;
     }
 
