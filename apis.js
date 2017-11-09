@@ -7,8 +7,12 @@ const weather = (senderID, city = 'Cluj-Napoca') => {
   const url = `http://api.openweathermap.org/data/2.5/weather?units=metric&q=${city}&appid=${process.env.WEATHER_APP_ID}`;
   request.get(url, (err, res, body) => {
     const response = JSON.parse(body);
-    if (body.cod !== '202') {
+
+    // the api returns a string when it fails
+    // a integer when it is succesful.
+    if (parseInt(response.cod, 10) !== '200') {
       nbMessage.sendTextMessage([senderID], `Whops something went wrong, ${response.message}`);
+      return;
     }
 
     let responseMessage = '';

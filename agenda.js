@@ -25,7 +25,7 @@ const init = (address = 'mongodb://127.0.0.1/agenda') => {
 
 const setUpReminder = (senderID, messageText) => {
   const splitMessageText = messageText.split('!reminder ');
-  const errMessage = 'Sorry, something went wrong, \n, here\'s an example: \n\n !reminder this works in 10 seconds';
+  const errMessage = 'Sorry, something went wrong, here\'s an example: \n\n !reminder you\'re awesome in 10 seconds';
 
   if (splitMessageText.length !== 2) {
     nbMessage.sendTextMessage([senderID], errMessage);
