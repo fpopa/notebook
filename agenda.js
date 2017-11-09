@@ -32,7 +32,7 @@ const setUpReminder = (senderID, messageText) => {
     return;
   }
 
-  if (splitMessageText.split(' in ').length !== 2) {
+  if (splitMessageText[1].split(' in ').length !== 2) {
     nbMessage.sendTextMessage([senderID], errMessage);
     return;
   }
