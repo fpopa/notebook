@@ -42,7 +42,7 @@ const crawl = ({ url, selector, init = false }) => {
         return;
       }
 
-      notify(`DBG: ${findings.length}, anunt nou: ${finding}`);
+      notify(`anunt nou: ${finding}`);
 
       if (findings.length > 20) {
         findings.shift();
