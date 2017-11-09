@@ -1,3 +1,4 @@
+const nbApis = require('./apis.js');
 const nbDatabase = require('./database.js');
 const nbMessage = require('./message.js');
 
@@ -9,8 +10,19 @@ const ensureCollectionExists = (collection) => {
   }
 };
 
-const welcomeNewUser = (senderID) => {
-  nbMessage.sendTextMessage([senderID], 'Hello :)\n\n I am here to help you, see how by writting \'!help\'');
+const welcomeNewUser = (senderID, user) => {
+  nbMessage.sendTextMessage([senderID], `Hello ${user.first_name} :)\n\n I am here to help you, see how by writting '!help'`);
+};
+
+const saveExtraData = (senderID, user) => {
+  Users.update({
+    senderID,
+  }, {
+    $set: {
+      first_name: user.first_name,
+      last_name: user.last_name,
+    },
+  });
 };
 
 const ensureUserExists = (senderID) => {
@@ -31,7 +43,10 @@ const ensureUserExists = (senderID) => {
     }
 
     if (command.result.upserted) {
-      welcomeNewUser(senderID);
+      nbApis.userData(senderID, (userData) => {
+        saveExtraData(senderID, userData);
+        welcomeNewUser(senderID, userData);
+      });
     }
   });
 };

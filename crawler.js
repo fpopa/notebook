@@ -21,7 +21,7 @@ const crawl = ({ url, selector, init = false }) => {
     if (error) {
       console.log(`${Date()}: Crawler Error: ${error}`);
 
-      setTimeout(() => { crawl({url, selector, init}); }, 5 * 60 * 1000);
+      setTimeout(() => { crawl({ url, selector, init }); }, 5 * 60 * 1000);
       return;
     }
 

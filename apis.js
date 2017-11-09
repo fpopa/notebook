@@ -3,16 +3,6 @@ const moment = require('moment');
 
 const nbMessage = require('./message.js');
 
-const mmr = (senderID) => {
-  const url = 'https://api.opendota.com/api/players/58161269';
-
-  request.get(url, (err, res, body) => {
-    const response = JSON.parse(body);
-
-    nbMessage.sendTextMessage([senderID], response.mmr_estimate.estimate);
-  });
-};
-
 const weather = (senderID, city = 'Cluj-Napoca') => {
   const url = `http://api.openweathermap.org/data/2.5/weather?units=metric&q=${city}&appid=${process.env.WEATHER_APP_ID}`;
   request.get(url, (err, res, body) => {
@@ -36,5 +26,11 @@ const weather = (senderID, city = 'Cluj-Napoca') => {
   });
 };
 
-module.exports.mmr = mmr;
+const userData = (senderID, cb) => {
+  const url = `https://graph.facebook.com/${senderID}?fields=first_name,last_name,profile_pic&access_token=${process.env.PAGE_ACCESS_TOKEN}`;
+
+  request.get(url, (err, res, body) => cb(JSON.parse(body)));
+};
+
 module.exports.weather = weather;
+module.exports.userData = userData;

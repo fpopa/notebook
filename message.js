@@ -53,9 +53,6 @@ const receivedMessage = (event) => {
     case messageText.startsWith('!help'):
       sendTextMessage([senderID], nbHelp.commands());
       break;
-    case messageText === '!mmr':
-      nbApis.mmr(senderID);
-      break;
     case messageText.startsWith('!reminder'):
       nbAgenda.setUpReminder(senderID, messageText);
       break;
