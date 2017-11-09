@@ -10,7 +10,7 @@ const weather = (senderID, city = 'Cluj-Napoca') => {
 
     // the api returns a string when it fails
     // a integer when it is succesful.
-    if (parseInt(response.cod, 10) !== '200') {
+    if (parseInt(response.cod, 10) !== 200) {
       nbMessage.sendTextMessage([senderID], `Whops something went wrong, ${response.message}`);
       return;
     }
