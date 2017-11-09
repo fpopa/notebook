@@ -33,7 +33,7 @@ const ensureUserExists = (senderID) => {
   }, {
     $setOnInsert: {
       senderID,
-      notifications: false,
+      notifications: true,
     },
   }, {
     upsert: true,
