@@ -57,15 +57,6 @@ nbDatabase.connect('mongodb://localhost:27017/notebook', (err) => {
   nbCrawler.startCrawlers();
 
   app.listen(3005);
-
-  nbMessage.receivedMessage({
-    sender: {
-      id: '1410566615678213',
-    },
-    message: {
-      text: 'hello',
-    },
-  });
 });
 
 
