@@ -1,5 +1,6 @@
 const cheerio = require('cheerio');
 const fs = require('fs');
+//wget cs.ubbcluj.ro to fetch the file.
 const $ = cheerio.load(fs.readFileSync('index.html')); //info
 
 const population = 30;
@@ -8,6 +9,7 @@ let generations = 400;
 // const population = 200;
 // let generations = 400;
 
+//use the title of the first announcement as the needle
 const needle = 'Orar semestrul I, anul universitar 2017-2018'
 // const htmlElements = ['DOCTYPE', 'a', 'abbr', 'acronym', 'address', 'applet', 'embed', 'object', 'area', 'article', 'aside', 'audio', 'b', 'base', 'basefont', 'bdi', 'bdo', 'big', 'blockquote', 'body', 'br', 'button', 'canvas', 'caption', 'center', 'cite', 'code', 'col', 'colgroup', 'datalist', 'dd', 'del', 'details', 'dfn', 'dialog', 'dir', 'ul', 'div', 'dl', 'dt', 'em', 'fieldset', 'figcaption', 'figure', 'font', 'footer', 'form', 'frame', 'frameset', 'h1', 'h6', 'head', 'header', 'hr', 'html', 'i', 'iframe', 'img', 'input', 'ins', 'kbd', 'label', 'legend', 'li', 'link', 'main', 'map', 'mark', 'menu', 'menuitem', 'meta', 'meter', 'nav', 'noframes', 'noscript', 'ol', 'optgroup', 'option', 'output', 'p', 'param', 'picture', 'pre', 'progress', 'q', 'rp', 'rt', 'ruby', 's', 'samp', 'script', 'section', 'select', 'small', 'source', 'video', 'span', 'strike', 'strong', 'style', 'sub', 'summary', 'sup', 'table', 'tbody', 'td', 'textarea', 'tfoot', 'th', 'thead', 'time', 'title', 'tr', 'track', 'tt', 'u', 'var', 'wbr'];
 const htmlElements = ['html', 'html', 'html', 'body', 'div', 'h2', 'a'];
