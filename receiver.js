@@ -26,6 +26,26 @@ app.get('/privacy', (req, res) => {
   res.send(nbTexts.privacy());
 });
 
+app.get('/dev/:message', (req, res) => {
+  if (process.env.ENV !== 'dev') {
+    res.sendStatus(405);
+    return;
+  }
+
+  console.log(req.params.message);
+
+  nbMessage.receivedMessage({
+    message: {
+      text: req.params.message,
+    },
+      sender: {
+        id: 'dev_id',
+    },
+  });
+
+  res.send(`received: ${req.params.message}`);
+});
+
 app.post('/webhook', (req, res) => {
   if (!req.body.object === 'page') {
     return;
